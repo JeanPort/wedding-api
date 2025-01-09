@@ -2,7 +2,7 @@ package br.com.jean.wedding.model;
 
 import jakarta.persistence.*;
 
-import java.lang.annotation.Documented;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_presente")
@@ -59,5 +59,17 @@ public class Presente {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Presente presente = (Presente) o;
+        return Objects.equals(id, presente.id) && Objects.equals(nome, presente.nome) && Objects.equals(descricao, presente.descricao) && Objects.equals(linkFoto, presente.linkFoto) && Objects.equals(preco, presente.preco);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, linkFoto, preco);
     }
 }

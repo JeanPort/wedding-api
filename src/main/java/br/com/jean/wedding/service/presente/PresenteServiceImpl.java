@@ -8,19 +8,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class PresenteServiceImpl implements IPresenteService{
 
-    private final PresenteRepo repo;
+
+    private PresenteRepo repo;
 
     public PresenteServiceImpl(PresenteRepo repo) {
         this.repo = repo;
     }
 
+
     @Override
     public PresenteDTO save(PresenteDTO novo) {
-        Presente presente = fromEntity(novo);
-        return fromDto(repo.save(presente));
+        Presente presente = fromDtoToEntity(novo);
+        Presente res = repo.save(presente);
+        return fromEntityToDto(res);
     }
 
-    private Presente fromEntity(PresenteDTO dto){
+    private Presente fromDtoToEntity(PresenteDTO dto){
         Presente presente = new Presente();
         presente.setDescricao(dto.descricao());
         presente.setId(dto.id());
@@ -30,7 +33,7 @@ public class PresenteServiceImpl implements IPresenteService{
         return presente;
     }
 
-    private PresenteDTO fromDto(Presente presente) {
+    private PresenteDTO fromEntityToDto(Presente presente) {
         return new PresenteDTO(presente.getId(), presente.getNome(), presente.getDescricao(), presente.getLinkFoto(), presente.getPreco());
     }
 }
